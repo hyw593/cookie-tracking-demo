@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third-Party Cookie Tracking Demo</title>
+</head>
+<body>
+    <h1>Third-Party Cookie Tracking Demo</h1>
+    <p>This page demonstrates third-party cookie tracking using an iframe.</p>
+
+    <!-- 嵌入第三方页面的iframe -->
+    <iframe src="https://third-party-domain.com/tracker.html" width="0" height="0" style="display:none;"></iframe>
+
+    <button onclick="checkCookie()">Check Third-Party Cookie</button>
+    <div id="result"></div>
+
+    <script>
+        function checkCookie() {
+            // 向iframe发送消息，请求cookie信息
+            document.querySelector('iframe').contentWindow.postMessage('getCookie', 'https://third-party-domain.com');
+        }
+
+        // 监听来自iframe的消息
+        window.addEventListener('message', function(event) {
+            if (event.origin === 'https://third-party-domain.com') {
+                document.getElementById('result').textContent = 'Third-party cookie value: ' + event.data;
+            }
+        }, false);
+    </script>
+</body>
+</html>
