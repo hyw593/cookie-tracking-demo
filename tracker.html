@@ -31,13 +31,17 @@
         }
 
         // 设置一个示例cookie
+        console.log('Tracker page loaded');
         setCookie('thirdPartyCookie', 'user123', 30);
+        console.log('Cookie set');
 
         // 监听来自主页面的消息
         window.addEventListener('message', function(event) {
-            if (event.data === 'getCookie') {
+            console.log('Received message from main page:', event.data);
+            if (event.origin === 'http://localhost:8000' && event.data === 'getCookie') {
                 var cookieValue = getCookie('thirdPartyCookie');
                 // 将cookie值发送回主页面
+                console.log('Sending cookie value back:', cookieValue);
                 event.source.postMessage(cookieValue, event.origin);
             }
         }, false);

@@ -10,23 +10,24 @@
     <p>This page demonstrates third-party cookie tracking using an iframe.</p>
 
     <!-- 嵌入第三方页面的iframe -->
-    <iframe src="https://third-party-domain.com/tracker.html" width="0" height="0" style="display:none;"></iframe>
+    <iframe src="http://localhost:8001/tracker.html" width="0" height="0" style="display:none;"></iframe>
 
     <button onclick="checkCookie()">Check Third-Party Cookie</button>
     <div id="result"></div>
 
     <script>
-        function checkCookie() {
-            // 向iframe发送消息，请求cookie信息
-            document.querySelector('iframe').contentWindow.postMessage('getCookie', 'https://third-party-domain.com');
-        }
+        console.log('Main page loaded');
+function checkCookie() {
+    console.log('Button clicked, sending message to iframe');
+    document.querySelector('iframe').contentWindow.postMessage('getCookie', 'http://localhost:8001');
+}
 
-        // 监听来自iframe的消息
-        window.addEventListener('message', function(event) {
-            if (event.origin === 'https://third-party-domain.com') {
-                document.getElementById('result').textContent = 'Third-party cookie value: ' + event.data;
-            }
-        }, false);
+window.addEventListener('message', function(event) {
+    console.log('Received message from iframe:', event.data);
+    if (event.origin === 'http://localhost:8001') {
+        document.getElementById('result').textContent = 'Third-party cookie value: ' + event.data;
+    }
+}, false);
     </script>
 </body>
 </html>
